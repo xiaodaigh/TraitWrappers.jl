@@ -1,7 +1,6 @@
-# TraitWrapper
+# TraitWrapper.jl
 
-A Trait-system where the object is part of the trait type and accessible via
-the function `object`.
+A trait-system where the object is part of the trait type and accessible via the function `object`.
 
 ## Why?
 The most popular (and only?) trait system in Julia is the Holy Traits. I read with interests [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/). The examples and the blogs on traits are based on using traits on one of the arguments. But in many use-cases, multiple arguments can receive the traits treatment. Holy Traits still works in those cases,   but it can feel unsatisfying and makes code harder to read. The "why" is best illustrated with examples.
