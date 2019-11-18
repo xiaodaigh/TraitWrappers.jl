@@ -1,6 +1,6 @@
-using TraitWrapper
+using TraitWrappers
 using Test
 
-@testset "TraitWrapper.jl" begin
+@testset "TraitWrappers.jl" begin
     # Write your own tests here.
 end
