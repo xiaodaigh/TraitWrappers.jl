@@ -1,16 +1,16 @@
-# TraitWrapper.jl
+# TraitWrappers.jl
 
 A trait-system where the object is part of the trait type and accessible via the function `object`.
 
 ## Why?
-The most popular (and only?) trait system in Julia is the Holy Traits. I read with interests [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/). The examples and the blogs on traits are based on using traits on one of the arguments. But in many use-cases, multiple arguments can receive the traits treatment. Holy Traits still works in those cases,   but it can feel unsatisfying and makes code harder to read. The "why" is best illustrated with examples.
+The most popular (and only?) trait system in Julia is the Holy Traits. Please see [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/) which discusses Holy Traits. Most of the examples and blogs on traits systems in Julia are based on using traits on one of the arguments. But in many use-cases, multiple arguments should receive the traits treatment. Holy Traits still works in those cases, but it can feel unsatisfying and can, sometimes, makes code harder to read. TraitWrapper.jl was concieved to solve these issues. The "why"s of TraitWrappers.jl are explored and illustrated with examples in the sections below.
 
 ## The `AbstractTraitWrapper` type
-`AbstractTraitWrapper` type only defines one method which is `object(t::AbstractTraitWrapper)`.
+`AbstractTraitWrapper` type only defines one method which is `object(t::AbstractTraitWrapper)` that should return the object with the trait.
 
-### Using `TraitWrappes.jl`
+### Using `TraitWrappers.jl`
 
-There is an example implementing an Iterable that is [`HasEltype()`](https://docs.julialang.org/en/v1/manual/interfaces/). The Holy Trait implementation looks like this
+This is an example implementing an Iterable that is [`HasEltype()`](https://docs.julialang.org/en/v1/manual/interfaces/). The Holy Trait implementation looks like this
 
 ```julia
 using Base: HasEltype
@@ -61,13 +61,13 @@ fn_tw(a::TraitAWrapper1, b::TraitBWrapper1, c::TraitCWrappe1r) = begin
 end
 ```
 
-There are pros and cons to either approach but with TraitWrapper.jl, it's easier to see which argument relies on which trait and don't have to rely on positional conventions which can complicated if some arguments rely on traits and some don't. TraitWrapper.jl enhances readability where there are many arguments that rely on trait.
+There are pros and cons to either approach but with TraitWrapper.jl, it's easier to see which argument relies on which trait and don't have to rely on positional conventions which can become unwieldy if some arguments rely on traits and some don't. TraitWrapper.jl enhances readability where there are many arguments that rely on traits.
 
-Technically, you don't really need this package. But using this package indicates that you are using `TraitWrappers` and can point here for explanation of the concept.
+Technically, you don't really need this package to implement the TraitWrapper idea. But using this package indicates that you are using `TraitWrappers` and can point here for explanation of the concept.
 
 ### Another Example
 
-Another example of using TraitWrappers.jl lies in the [JLBoost.jl](https://github.com/xiaodaigh/JLBoost.jl) package. JLBoost.jl's tree boosting algorithm use a predict function to score out an iterable of trees on a DataFrame-like objects.
+Another example of using TraitWrappers.jl lies in the [JLBoost.jl](https://github.com/xiaodaigh/JLBoost.jl) package. JLBoost.jl's tree boosting algorithm use a `predict` function to score out an iterable of trees on a `DataFrame`-like object.
 
 Before the introduction of TraitWrappers.jl. the function signature looked like this
 
@@ -87,7 +87,7 @@ function predict(jlts, df)
 end
 
 function predict(::Iterable{T}, ::ColumnAccessible, jlts, df) where T <:AbstractJLBoostTree
-	mapreduce(x->predict(x, df), +, jlts)
+    mapreduce(x->predict(x, df), +, jlts)
 end
 ```
 
@@ -105,7 +105,6 @@ struct IterableTraitWrapper{T} <: AbstractTraitWrapper
    end
 end
 
-
 struct ColumnAccessibleTraitWrapper{T} <: TraitWrapper{T}
    object::T
    ColumnAccessibleTraitWrapper(t::T) where T = begin
@@ -118,7 +117,7 @@ struct ColumnAccessibleTraitWrapper{T} <: TraitWrapper{T}
 end
 ```
 
-Now the my traits signature becomes like so which makes it easy to associate the treat with the argument
+Now the my traits signature becomes like the below; it is easy to associate the traits with the arguments
 
 ```julia
 function predict(jlts, df)
@@ -126,8 +125,10 @@ function predict(jlts, df)
 end
 
 function predict(jlts::IterableTraitWrapper, df::ColumnAccessible)
-	mapreduce(x->predict(x, object(df)), +, object(jlts))
+    mapreduce(x->predict(x, object(df)), +, object(jlts))
 end
 ```
 
-If  more traits are needed in a function signature, I can just do that and not have to double the number of arguments. I also find the `TraitWrapper` to be clearer as I can see which trait corresponds to which argument better and I am clearly expressing which argument I expect to have a certain trait.
+Finally, if  more traits are needed in a function signature, they can be added without having to double the number of arguments.
+
+In conclusion, I hope you find that `TraitWrapper` makes it clearer which trait corresponds to which argument better, and it is easier to clearly express which argument is expected to have a certain trait.
