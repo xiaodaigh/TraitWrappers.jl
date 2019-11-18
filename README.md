@@ -108,8 +108,8 @@ end
 struct ColumnAccessibleTraitWrapper{T} <: TraitWrapper{T}
    object::T
    ColumnAccessibleTraitWrapper(t::T) where T = begin
-      if hasmethod(getindex, Tuple{DataFrame, typeof(!), Symbol})
-      	new{T}(t)
+      if hasmethod(getindex, Tuple{T, typeof(!), Symbol})
+      	 new{T}(t)
       else
          throw("This is not ColumnAccessible")
       end
