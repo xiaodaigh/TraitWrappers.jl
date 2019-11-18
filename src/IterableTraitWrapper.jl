@@ -5,7 +5,7 @@
 Wraps a Iterable object
 """
 
-import Base: iterate, eltype, length, size
+import Base: iterate, eltype, length, size, IteratorEltype, IteratorSize
 export IterableTraitWrapper#, IteratorEltype, IteratorSize, iterate, eltype, length, size
 
 struct IterableTraitWrapper{T} <: AbstractTraitWrapper
