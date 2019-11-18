@@ -26,12 +26,11 @@ end
 The equivalent implementation using `TraitWrappers.jl` is
 
 ```julia
+# Firstly define a TraitWrapper type
 struct EltypeTypeTraitWrapper{T, I <: IteratorEltype} <: AbstractTraitWrapper
 	object::T
 	EltypeTypeTraitWrapper(t::T) where T = new{T, typeof(IteratorEltype(t))}(t)
 end
-
-typeof(EltypeTypeTraitWrapper{Number, HasEltype})
 
 fn_tw(itr) = fn_tw(EltypeTypeTraitWrapper(itr))
 
@@ -117,7 +116,7 @@ struct ColumnAccessibleTraitWrapper{T} <: TraitWrapper{T}
 end
 ```
 
-Now the my traits signature becomes like the below; it is easy to associate the traits with the arguments
+Now the my traits signature becomes like the below; it is easy to associate the traits with the arguments. Please note, that the above is dynamic, as it relies on checking if a method exists. Dynamic type constructors cannot be compiled away and may lead to inefficient code. To address this, one may consider using [Tricks.jl](https://github.com/oxinabox/Tricks.jl)'s `statis_hasmethod` function and note that Tricks.jl only works on Julia >= 1.3.
 
 ```julia
 function predict(jlts, df)
