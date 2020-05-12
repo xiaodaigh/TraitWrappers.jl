@@ -3,7 +3,7 @@
 A trait-system where the object is part of the trait type and accessible via the function `object`.
 
 ## Why?
-The most popular (and only?) trait system in Julia is the Holy Traits. Please see [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/) which discusses Holy Traits. Most of the examples and blogs on traits systems in Julia are based on using traits on one of the arguments. But in many use-cases, multiple arguments should receive the traits treatment. Holy Traits still works in those cases, but it can feel unsatisfying and can, sometimes, makes code harder to read. TraitWrapper.jl was concieved to solve these issues. The "why"s of TraitWrappers.jl are explored and illustrated with examples in the sections below.
+The most popular (and only?) trait system in Julia is the Holy Traits. Please see [The Emergent Features of JuliaLang: Part II - Traits](https://invenia.github.io/blog/2019/11/06/julialang-features-part-2/) which discusses Holy Traits. Most of the examples and blogs on traits systems in Julia are based on using traits on one of the arguments. But in many use-cases, multiple arguments should receive the traits treatment. Holy Traits still works in those cases, but it can feel unsatisfying. Indeed, sometimes it can make code harder to read. TraitWrapper.jl was concieved to solve these issues. The "why"s of TraitWrappers.jl are explored and illustrated with examples in the sections below.
 
 ## The `AbstractTraitWrapper` type
 `AbstractTraitWrapper` type only defines one method which is `object(t::AbstractTraitWrapper)` that should return the object with the trait.
