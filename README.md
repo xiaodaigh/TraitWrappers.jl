@@ -10,7 +10,7 @@ The most popular (and only?) trait system in Julia is the Holy Traits. Please se
 
 ### Using `TraitWrappers.jl`
 
-This is an example implementing an Iterable that is [`HasEltype()`](https://docs.julialang.org/en/v1/manual/interfaces/). The Holy Trait implementation looks like this
+This is an example implementing an Iterable that has the trait [`HasEltype()`](https://docs.julialang.org/en/v1/manual/interfaces/). The Holy Trait implementation looks like this
 
 ```julia
 using Base: HasEltype
